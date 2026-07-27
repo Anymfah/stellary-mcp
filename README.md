@@ -1,7 +1,7 @@
 # Stellary Project Management MCP Server
 
 [![Validate MCP listing](https://github.com/Anymfah/stellary-mcp/actions/workflows/validate.yml/badge.svg)](https://github.com/Anymfah/stellary-mcp/actions/workflows/validate.yml)
-[![MCP Registry](https://img.shields.io/badge/MCP-Official%20Registry-7c6cff)](https://registry.modelcontextprotocol.io/)
+[![MCP Registry](https://img.shields.io/badge/MCP-Official%20Registry-7c6cff)](https://registry.modelcontextprotocol.io/v0.1/servers/io.github.Anymfah%2Fstellary-project-management/versions/latest)
 
 Connect AI assistants and coding agents to live Stellary projects through the
 Model Context Protocol (MCP). The hosted server exposes project, board,
@@ -12,6 +12,7 @@ existing permissions.
 - **Transport:** Streamable HTTP
 - **Authentication:** Bearer personal access token (PAT)
 
+[Official MCP Registry listing](https://registry.modelcontextprotocol.io/v0.1/servers/io.github.Anymfah%2Fstellary-project-management/versions/latest) ·
 [Documentation](https://stellary.co/docs/mcp/) ·
 [Guide en français](README.fr.md)
 

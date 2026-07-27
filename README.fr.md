@@ -9,6 +9,7 @@ permissions du compte.
 - **Transport :** Streamable HTTP
 - **Authentification :** personal access token (PAT) dans un header Bearer
 
+[Fiche du registre MCP officiel](https://registry.modelcontextprotocol.io/v0.1/servers/io.github.Anymfah%2Fstellary-project-management/versions/latest) ·
 [Documentation complète](https://stellary.co/fr/docs/mcp/) ·
 [English README](README.md)
 

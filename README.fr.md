@@ -5,9 +5,9 @@ Model Context Protocol (MCP). Le serveur hébergé donne accès aux projets,
 tableaux, cartes, documents, missions et données de pilotage, dans la limite des
 permissions du compte.
 
-**Endpoint :** `https://api.stellary.co/mcp`  
-**Transport :** Streamable HTTP  
-**Authentification :** personal access token (PAT) dans un header Bearer
+- **Endpoint :** `https://api.stellary.co/mcp`
+- **Transport :** Streamable HTTP
+- **Authentification :** personal access token (PAT) dans un header Bearer
 
 [Documentation complète](https://stellary.co/fr/docs/mcp/) ·
 [English README](README.md)

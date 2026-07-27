@@ -8,9 +8,9 @@ Model Context Protocol (MCP). The hosted server exposes project, board,
 collaboration, cockpit, and agent-mission tools while preserving Stellary's
 existing permissions.
 
-**Endpoint:** `https://api.stellary.co/mcp`  
-**Transport:** Streamable HTTP  
-**Authentication:** Bearer personal access token (PAT)
+- **Endpoint:** `https://api.stellary.co/mcp`
+- **Transport:** Streamable HTTP
+- **Authentication:** Bearer personal access token (PAT)
 
 [Documentation](https://stellary.co/docs/mcp/) ·
 [Guide en français](README.fr.md)

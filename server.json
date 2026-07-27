@@ -1,6 +1,6 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.anymfah/stellary-project-management",
+  "name": "io.github.Anymfah/stellary-project-management",
   "title": "Stellary Project Management MCP Server",
   "description": "Connect AI assistants to Stellary projects, boards, documents, and governed agent workflows.",
   "version": "0.12.0",

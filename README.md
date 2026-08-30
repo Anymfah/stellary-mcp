@@ -2,6 +2,8 @@
 
 [![Validate MCP listing](https://github.com/Anymfah/stellary-mcp/actions/workflows/validate.yml/badge.svg)](https://github.com/Anymfah/stellary-mcp/actions/workflows/validate.yml)
 [![MCP Registry](https://img.shields.io/badge/MCP-Official%20Registry-7c6cff)](https://registry.modelcontextprotocol.io/v0.1/servers/io.github.Anymfah%2Fstellary-project-management/versions/latest)
+[![stellary-mcp MCP server](https://glama.ai/mcp/servers/Anymfah/stellary-mcp/badges/card.svg)](https://glama.ai/mcp/servers/Anymfah/stellary-mcp)
+[![stellary-mcp MCP server](https://glama.ai/mcp/servers/Anymfah/stellary-mcp/badges/score.svg)](https://glama.ai/mcp/servers/Anymfah/stellary-mcp)
 
 Connect AI assistants and coding agents to live Stellary projects through the
 Model Context Protocol (MCP). The hosted server exposes project, board,

@@ -1,0 +1,31 @@
+{
+  "name": "stellary",
+  "version": "0.12.1",
+  "description": "Connect Cursor to Stellary, the AI-native project piloting SaaS, through the hosted Streamable HTTP MCP server. Discover projects, boards, documents, cockpit state, and governed agent missions using a Bearer personal access token.",
+  "author": {
+    "name": "Stellary",
+    "email": "support@stellary.co"
+  },
+  "homepage": "https://stellary.co",
+  "repository": "https://github.com/Anymfah/stellary-mcp",
+  "license": "MIT",
+  "keywords": [
+    "stellary",
+    "mcp",
+    "project-management",
+    "remote-mcp",
+    "streamable-http"
+  ],
+  "logo": "https://stellary.co/logo.svg",
+  "variables": {
+    "type": "object",
+    "properties": {
+      "STELLARY_TOKEN": {
+        "type": "string",
+        "title": "Stellary token",
+        "description": "Personal access token from Stellary Account settings → API tokens. Sent as Authorization: Bearer ${STELLARY_TOKEN} to https://api.stellary.co/mcp. This plugin wraps the hosted remote MCP; it does not start a local stdio process or use OAuth."
+      }
+    },
+    "required": ["STELLARY_TOKEN"]
+  }
+}

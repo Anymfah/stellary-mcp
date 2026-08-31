@@ -62,6 +62,26 @@ Pour signaler une vulnérabilité, suivez [SECURITY.md](SECURITY.md). Pour une
 question de configuration, écrivez à
 [support@stellary.co](mailto:support@stellary.co).
 
+## Manifestes des annuaires d’agents
+
+Ce dépôt est aussi la source publique de découverte pour les annuaires de
+plugins. Chaque fichier pointe vers le même endpoint Streamable HTTP hébergé
+et un PAT Bearer. Aucun n’utilise stdio/`npx` local ni OAuth.
+
+| Surface | Fichiers |
+| --- | --- |
+| cursor.directory / Open Plugins | [`.mcp.json`](.mcp.json) |
+| Cursor Marketplace | [`.cursor-plugin/plugin.json`](.cursor-plugin/plugin.json), [`mcp.json`](mcp.json) |
+| Claude Code Plugin Directory | [`.claude-plugin/plugin.json`](.claude-plugin/plugin.json), [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json), [`.mcp.json`](.mcp.json) |
+| Gemini CLI Extensions | [`gemini-extension.json`](gemini-extension.json) |
+| skills.sh / ClawHub | [`SKILL.md`](SKILL.md) (`npx skills add Anymfah/stellary-mcp`) |
+| Grok Build | [`.grok-plugin/plugin.json`](.grok-plugin/plugin.json) |
+| GitHub Copilot / Agent Plugins | [`plugin.json`](plugin.json) |
+
+Définissez `STELLARY_TOKEN` dans l’environnement du client. Ne commettez jamais
+un token réel. Une icône 400×400 est dans
+[`assets/logo-400.png`](assets/logo-400.png).
+
 ## À propos de ce dépôt
 
 Ce dépôt public est la source officielle de découverte et de configuration du

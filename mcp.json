@@ -1,7 +1,6 @@
 {
   "mcpServers": {
     "stellary": {
-      "type": "http",
       "url": "https://api.stellary.co/mcp",
       "headers": {
         "Authorization": "Bearer ${STELLARY_TOKEN}"

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "stellary",
+  "displayName": "Stellary",
+  "version": "0.12.1",
+  "description": "Connect Claude Code to Stellary, the AI-native project piloting SaaS, through the hosted Streamable HTTP MCP at https://api.stellary.co/mcp. Uses a Bearer personal access token (not OAuth, not a local npx/stdio server).",
+  "author": {
+    "name": "Stellary",
+    "email": "support@stellary.co",
+    "url": "https://stellary.co"
+  },
+  "homepage": "https://stellary.co/docs/mcp/",
+  "repository": "https://github.com/Anymfah/stellary-mcp",
+  "license": "MIT",
+  "keywords": [
+    "stellary",
+    "mcp",
+    "project-management",
+    "remote-mcp",
+    "streamable-http"
+  ],
+  "mcpServers": "./.mcp.json"
+}

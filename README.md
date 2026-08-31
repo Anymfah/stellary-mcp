@@ -81,6 +81,26 @@ columns and cards before enabling write scopes.
 For a vulnerability, follow [SECURITY.md](SECURITY.md). For setup questions,
 email [support@stellary.co](mailto:support@stellary.co).
 
+## Agent directory manifests
+
+This repository is also the public discovery source for agent plugin
+directories. Each file points at the same hosted Streamable HTTP endpoint and
+Bearer PAT. None of them start a local stdio/`npx` server or use OAuth.
+
+| Surface | Files |
+| --- | --- |
+| cursor.directory / Open Plugins | [`.mcp.json`](.mcp.json) |
+| Cursor Marketplace | [`.cursor-plugin/plugin.json`](.cursor-plugin/plugin.json), [`mcp.json`](mcp.json) |
+| Claude Code Plugin Directory | [`.claude-plugin/plugin.json`](.claude-plugin/plugin.json), [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json), [`.mcp.json`](.mcp.json) |
+| Gemini CLI Extensions | [`gemini-extension.json`](gemini-extension.json) |
+| skills.sh / ClawHub | [`SKILL.md`](SKILL.md) (`npx skills add Anymfah/stellary-mcp`) |
+| Grok Build | [`.grok-plugin/plugin.json`](.grok-plugin/plugin.json) |
+| GitHub Copilot / Agent Plugins | [`plugin.json`](plugin.json) |
+
+Set `STELLARY_TOKEN` in the client environment or plugin settings. Never commit
+a real token. A 400×400 listing icon is in
+[`assets/logo-400.png`](assets/logo-400.png).
+
 ## About this repository
 
 This public repository is the canonical discovery and configuration source for

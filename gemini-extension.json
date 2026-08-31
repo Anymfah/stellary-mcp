@@ -1,0 +1,21 @@
+{
+  "name": "stellary",
+  "version": "0.12.1",
+  "description": "Connect Gemini CLI to Stellary, the AI-native project piloting SaaS, through the hosted Streamable HTTP MCP at https://api.stellary.co/mcp. Authenticate with a Bearer personal access token (not OAuth, not a local stdio server).",
+  "mcpServers": {
+    "stellary": {
+      "httpUrl": "https://api.stellary.co/mcp",
+      "headers": {
+        "Authorization": "Bearer ${STELLARY_TOKEN}"
+      }
+    }
+  },
+  "settings": [
+    {
+      "name": "Stellary token",
+      "description": "Personal access token from Stellary Account settings → API tokens. Required as Authorization Bearer for https://api.stellary.co/mcp.",
+      "envVar": "STELLARY_TOKEN",
+      "sensitive": true
+    }
+  ]
+}

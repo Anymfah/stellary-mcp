@@ -89,6 +89,12 @@ client examples, documentation, and automated availability checks. The hosted
 Stellary application and server implementation are not distributed from this
 repository.
 
+Thin plugin manifests for Grok Build and GitHub Copilot live in
+[`.mcp.json`](.mcp.json), [`.grok-plugin/plugin.json`](.grok-plugin/plugin.json),
+and [`plugin.json`](plugin.json). They point at the hosted endpoint
+`https://api.stellary.co/mcp` (Streamable HTTP + Bearer PAT). A 400×400 listing
+icon is in [`assets/logo-400.png`](assets/logo-400.png).
+
 The metadata and documentation in this repository are licensed under the MIT
 License. Use of the hosted service is governed by the
 [Stellary terms](https://stellary.co/terms/).

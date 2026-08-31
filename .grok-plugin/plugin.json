@@ -1,0 +1,19 @@
+{
+  "name": "stellary",
+  "version": "0.12.1",
+  "description": "AI-native project piloting: boards, documents, cockpit, and governed agent missions via Stellary's hosted MCP server.",
+  "author": {
+    "name": "Stellary",
+    "url": "https://github.com/Anymfah"
+  },
+  "repository": "https://github.com/Anymfah/stellary-mcp",
+  "homepage": "https://stellary.co",
+  "license": "MIT",
+  "keywords": [
+    "stellary",
+    "project-management",
+    "mcp",
+    "boards",
+    "agents"
+  ]
+}

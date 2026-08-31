@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "stellary": {
+      "type": "http",
+      "url": "https://api.stellary.co/mcp",
+      "headers": {
+        "Authorization": "Bearer ${STELLARY_API_TOKEN}"
+      },
+      "note": "Official Stellary hosted MCP over Streamable HTTP. Authentication is a Bearer personal access token (not OAuth). Create a PAT at https://app.stellary.co (Account settings → API tokens). Docs: https://stellary.co/docs/mcp/"
+    }
+  }
+}

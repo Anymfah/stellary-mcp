@@ -1,0 +1,33 @@
+{
+  "name": "stellary-mcp",
+  "owner": {
+    "name": "Stellary",
+    "email": "support@stellary.co",
+    "url": "https://stellary.co"
+  },
+  "metadata": {
+    "description": "Official Stellary hosted MCP plugin. Streamable HTTP with Bearer PAT at https://api.stellary.co/mcp.",
+    "version": "0.12.0"
+  },
+  "plugins": [
+    {
+      "name": "stellary",
+      "source": "./",
+      "description": "Hosted Stellary project-management MCP server (Streamable HTTP + Bearer PAT).",
+      "version": "0.12.0",
+      "author": {
+        "name": "Stellary",
+        "email": "support@stellary.co"
+      },
+      "homepage": "https://stellary.co/docs/mcp/",
+      "repository": "https://github.com/Anymfah/stellary-mcp",
+      "license": "MIT",
+      "keywords": [
+        "stellary",
+        "mcp",
+        "project-management",
+        "remote-mcp"
+      ]
+    }
+  ]
+}

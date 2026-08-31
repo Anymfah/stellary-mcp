@@ -1,6 +1,6 @@
 {
   "name": "stellary",
-  "version": "0.12.0",
+  "version": "0.12.1",
   "description": "Connect Gemini CLI to Stellary, the AI-native project piloting SaaS, through the hosted Streamable HTTP MCP at https://api.stellary.co/mcp. Authenticate with a Bearer personal access token (not OAuth, not a local stdio server).",
   "mcpServers": {
     "stellary": {

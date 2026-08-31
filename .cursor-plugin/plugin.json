@@ -1,6 +1,6 @@
 {
   "name": "stellary",
-  "version": "0.12.0",
+  "version": "0.12.1",
   "description": "Connect Cursor to Stellary, the AI-native project piloting SaaS, through the hosted Streamable HTTP MCP server. Discover projects, boards, documents, cockpit state, and governed agent missions using a Bearer personal access token.",
   "author": {
     "name": "Stellary",

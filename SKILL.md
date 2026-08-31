@@ -6,7 +6,7 @@ homepage: https://stellary.co/docs/mcp/
 compatibility: Requires a connected Stellary remote MCP (Streamable HTTP at https://api.stellary.co/mcp) or STELLARY_TOKEN to add that server. No local npx/stdio server. Not OAuth.
 metadata:
   author: Stellary
-  version: "0.12.0"
+  version: "0.12.1"
   registry: io.github.Anymfah/stellary-project-management
   openclaw:
     primaryEnv: STELLARY_TOKEN

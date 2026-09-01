@@ -3,10 +3,10 @@ name: stellary-mcp
 description: Use Stellary, the AI-native project piloting SaaS, through its hosted remote MCP. Discover projects, boards, cards, documents, cockpit state, and governed agent missions. Use when the user mentions Stellary, Stellary boards, cockpit/pilotage, agent missions, or connecting an assistant to live Stellary work.
 license: MIT
 homepage: https://stellary.co/docs/mcp/
-compatibility: Requires a connected Stellary remote MCP (Streamable HTTP at https://api.stellary.co/mcp) or STELLARY_TOKEN to add that server. No local npx/stdio server. Not OAuth.
+compatibility: Requires a connected Stellary remote MCP (Streamable HTTP at https://api.stellary.co/mcp). OAuth is recommended; STELLARY_TOKEN remains available for compatible clients. No local npx/stdio server.
 metadata:
   author: Stellary
-  version: "0.12.1"
+  version: "0.13.0"
   registry: io.github.Anymfah/stellary-project-management
   openclaw:
     primaryEnv: STELLARY_TOKEN
@@ -26,24 +26,23 @@ Stellary is an AI-native project piloting SaaS. This skill teaches an agent to u
 - Official registry id: `io.github.Anymfah/stellary-project-management`
 - Endpoint: `https://api.stellary.co/mcp`
 - Transport: Streamable HTTP (`GET`/`POST`, stateless; no `Mcp-Session-Id` required)
-- Auth: `Authorization: Bearer <token>` (personal access token or agent token)
-- Not supported: OAuth, local `npx`/stdio servers, Dockerized copies of the backend
+- Auth: OAuth 2.1 with PKCE and refresh-token rotation; personal access tokens remain available for compatible clients
+- Not supported: local `npx`/stdio servers or Dockerized copies of the backend
 
-If Stellary MCP tools are already available in this session, use them. Do not invent a local server, wrapper package, or OAuth login.
+If Stellary MCP tools are already available in this session, use them. Do not invent a local server or wrapper package.
 
 ## Connect when tools are missing
 
-1. Ask the user to sign in at https://app.stellary.co and open **Account settings → API tokens**.
-2. Create a PAT. Start with `projects:read` and `pilotage:read`. Add write scopes only when the task needs them.
-3. Configure the client with the hosted URL and a Bearer header. Never write a real token into a repository, chat log, or committed config. Use `${STELLARY_TOKEN}` or the client's secret store.
+1. Configure the client with `https://api.stellary.co/mcp` and start its OAuth connection flow.
+2. Ask the user to sign in to Stellary, choose a workspace, and authorize **Me**, one or more active agents, or both.
+3. If several identities were authorized, call `stellary_list_identities` and pass the selected opaque reference in `actingAs`. Never invent or persist an identity reference beyond the connection that returned it.
 
 Claude Code:
 
 ```bash
 claude mcp add stellary \
   --transport streamable-http \
-  https://api.stellary.co/mcp \
-  --header "Authorization: Bearer ${STELLARY_TOKEN}"
+  https://api.stellary.co/mcp
 ```
 
 Cursor / JSON clients:
@@ -52,16 +51,16 @@ Cursor / JSON clients:
 {
   "mcpServers": {
     "stellary": {
-      "url": "https://api.stellary.co/mcp",
-      "headers": {
-        "Authorization": "Bearer ${STELLARY_TOKEN}"
-      }
+      "url": "https://api.stellary.co/mcp"
     }
   }
 }
 ```
 
-Gemini CLI uses `httpUrl` (not `url`) for Streamable HTTP:
+For a client that cannot complete remote OAuth, create a dedicated PAT from
+**Account settings → API tokens**. Start with `projects:read` and
+`pilotage:read`, add write scopes only when needed, and keep the secret in the
+client's secret store. Gemini CLI uses `httpUrl` (not `url`) for Streamable HTTP:
 
 ```json
 {
@@ -78,16 +77,26 @@ Gemini CLI uses `httpUrl` (not `url`) for Streamable HTTP:
 
 After connecting, call `list_projects` before any write. That confirms auth and project visibility without changing data.
 
-## Identity and what each token can do
+## Identity and what each credential can do
 
-| Bearer | Identity | Use for |
+| Credential | Identity | Use for |
 | --- | --- | --- |
+| OAuth connection | **Me**, one or more agents, or both | Recommended for Codex, ChatGPT, Claude, and other remote OAuth clients |
 | Personal access token | Human user | Interactive board, document, and cockpit work in Cursor, Claude Code, Gemini CLI |
 | User JWT | Human user | Short-lived browser-backed sessions |
 | Agent token | Workspace agent | Queued missions, `stellary_init`, installed plugin tools (GitHub, Slack, and similar) |
 | `MCP_TOKEN` | Transport gate only | Not enough for current Stellary tools that need a user or agent |
 
-Human PATs can use core board and cockpit tools. Workspace-context tools (missions, plugin integrations) need an **agent token**. Exact tool lists are resolved at connection time from token scopes, project access, workspace config, and—for agents—the agent's tool policy.
+An OAuth connection never exposes the private token of an authorized agent. If
+it contains one identity, `actingAs` is implicit. If it contains several,
+`actingAs` is required for tool calls. Exact tool lists are the union available
+to authorized identities, but every call is rechecked against the selected
+identity's current status, project access, role, tool policy, autonomy, and
+mission snapshot.
+
+Human PATs can use core board and cockpit tools. Workspace-context tools
+(missions, plugin integrations) require an agent identity. Agent tokens remain
+supported for direct compatibility connections.
 
 ## Safe operating rules
 
@@ -95,6 +104,7 @@ Human PATs can use core board and cockpit tools. Workspace-context tools (missio
 - Read first: `list_projects` → pick one project → inspect columns/cards/documents → then write.
 - Do not bulk-create, reassign, or complete missions unless the user asked for that change.
 - Treat tokens like passwords. Dedicated token per client, expiry date, revoke on leak.
+- Revoke OAuth connections from **Workspace settings → MCP connections** when the client should no longer have access.
 - All calls still obey Stellary permissions, autonomy policy, and rate limits.
 - Product terms: https://stellary.co/terms/
 
@@ -114,7 +124,7 @@ Installed workspace plugins register extra tools prefixed by plugin slug, for ex
 
 ## Recommended workflows
 
-### Explore a workspace (human PAT)
+### Explore a workspace (human identity)
 
 1. `list_projects`
 2. `get_project_details` with the chosen project id
@@ -122,7 +132,7 @@ Installed workspace plugins register extra tools prefixed by plugin slug, for ex
 4. `get_card_details` / `get_card_comments` before commenting or moving work
 5. Optionally `get_pilotage_state` or `get_cockpit_dashboard` for sprint and supervision context
 
-### Change work (human PAT, write scopes)
+### Change work (human identity, write scopes)
 
 1. Confirm the card and column ids from read tools
 2. Use `update_card`, `move_card`, `assign_card`, or `add_comment` with those ids
@@ -142,11 +152,14 @@ Autonomy for **agent** tokens:
 - `supervised`: reads execute; tools marked `approval_required` become persisted proposals
 - `approval`: every non-read tool becomes a proposal
 
-Human PAT sessions act as the user and do not go through agent proposal checks. If a write returns a proposal instead of a mutation, tell the user and use `list_pending_proposals` rather than retrying blindly.
+Human sessions act as the user and do not go through agent proposal checks. If a write returns a proposal instead of a mutation, tell the user and use `list_pending_proposals` rather than retrying blindly.
 
 ## Troubleshooting
 
-- **401:** Bearer format, expired/revoked token, or missing token. Do not fall back to OAuth.
+- **401 during OAuth:** reconnect the MCP client; the access token may have expired or the connection may have been revoked.
+- **401 with a PAT:** check the Bearer format, expiry, revocation, and selected scopes.
+- **`actingAs` required:** call `stellary_list_identities`, choose one returned opaque reference, and retry once with `actingAs`.
+- **Identity unavailable:** the agent may have been suspended, disabled, or removed from the grant; choose another authorized identity or reconnect.
 - **Tool requires a user token:** the session is using `MCP_TOKEN` or an anonymous context. Switch to a PAT.
 - **Tool requires a workspace context:** the call needs an agent token, not a human PAT.
 - **Plugin tool visible but failing:** plugin not installed/enabled, or missing decrypted config.

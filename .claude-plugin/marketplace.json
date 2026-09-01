@@ -7,15 +7,15 @@
     "url": "https://stellary.co"
   },
   "metadata": {
-    "description": "Official Stellary hosted MCP plugin. Streamable HTTP with Bearer PAT at https://api.stellary.co/mcp.",
-    "version": "0.12.1"
+    "description": "Official Stellary hosted MCP plugin with OAuth at https://api.stellary.co/mcp.",
+    "version": "0.13.0"
   },
   "plugins": [
     {
       "name": "stellary",
       "source": "./",
-      "description": "Hosted Stellary project-management MCP server (Streamable HTTP + Bearer PAT).",
-      "version": "0.12.1",
+      "description": "Hosted Stellary project-management MCP server with OAuth and multi-identity access.",
+      "version": "0.13.0",
       "author": {
         "name": "Stellary",
         "email": "support@stellary.co"

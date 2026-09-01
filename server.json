@@ -3,7 +3,7 @@
   "name": "io.github.Anymfah/stellary-project-management",
   "title": "Stellary Project Management MCP Server",
   "description": "Connect AI assistants to Stellary projects, boards, documents, and governed agent workflows.",
-  "version": "0.12.1",
+  "version": "0.13.0",
   "websiteUrl": "https://stellary.co/docs/mcp/",
   "repository": {
     "url": "https://github.com/Anymfah/stellary-mcp",
@@ -21,16 +21,7 @@
   "remotes": [
     {
       "type": "streamable-http",
-      "url": "https://api.stellary.co/mcp",
-      "headers": [
-        {
-          "name": "Authorization",
-          "description": "Bearer Stellary personal access token",
-          "isRequired": true,
-          "isSecret": true,
-          "placeholder": "Bearer YOUR_STELLARY_TOKEN"
-        }
-      ]
+      "url": "https://api.stellary.co/mcp"
     }
   ]
 }

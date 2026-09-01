@@ -1,0 +1,43 @@
+{
+  "name": "stellary",
+  "version": "0.13.0",
+  "description": "Connect Codex to Stellary projects and governed agent missions through the official hosted MCP server.",
+  "author": {
+    "name": "Stellary",
+    "email": "support@stellary.co",
+    "url": "https://stellary.co"
+  },
+  "homepage": "https://stellary.co/docs/mcp/",
+  "repository": "https://github.com/Anymfah/stellary-mcp",
+  "license": "MIT",
+  "keywords": [
+    "stellary",
+    "mcp",
+    "project-management",
+    "productivity",
+    "agents"
+  ],
+  "interface": {
+    "displayName": "Stellary",
+    "shortDescription": "Run projects and governed agent missions.",
+    "longDescription": "Inspect and update Stellary projects, boards, cards, documents, cockpit state, and governed missions. OAuth lets each connection authorize the user, one or more workspace agents, or both, while Stellary permissions and agent policies remain enforced.",
+    "developerName": "Stellary",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://stellary.co/",
+    "privacyPolicyURL": "https://stellary.co/privacy/",
+    "termsOfServiceURL": "https://stellary.co/terms/",
+    "defaultPrompt": [
+      "Show my Stellary projects and current priorities.",
+      "Review the selected project's cards and blockers.",
+      "Check which Stellary identities I can act as."
+    ],
+    "brandColor": "#7C6CFF",
+    "composerIcon": "./assets/logo-400.png",
+    "logo": "./assets/logo-400.png"
+  },
+  "mcpServers": "./.mcp.json"
+}

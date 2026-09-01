@@ -35,13 +35,57 @@ try {
 }
 
 const contentType = response.headers.get('content-type') ?? '';
+const authenticate = response.headers.get('www-authenticate') ?? '';
 const body = await response.text();
-const expectedChallenge = response.status === 401 && /bearer token required/i.test(body);
+const expectedChallenge =
+  response.status === 401 &&
+  /bearer/i.test(authenticate) &&
+  /resource_metadata="https:\/\/api\.stellary\.co\/\.well-known\/oauth-protected-resource\/mcp"/i.test(
+    authenticate,
+  ) &&
+  /scope="[^"]*projects:read[^"]*projects:write[^"]*pilotage:read[^"]*pilotage:write[^"]*"/i.test(
+    authenticate,
+  );
 
 if (!expectedChallenge || !contentType.includes('application/json')) {
   throw new Error(
-    `${remote.url} returned HTTP ${response.status} (${contentType || 'no content type'}): ${body.slice(0, 200)}`,
+    `${remote.url} returned HTTP ${response.status} (${contentType || 'no content type'}) with challenge ${authenticate || 'missing'}: ${body.slice(0, 200)}`,
   );
 }
 
-console.log(`${remote.url} is reachable and requires a bearer token as expected.`);
+const protectedResourceUrl = 'https://api.stellary.co/.well-known/oauth-protected-resource/mcp';
+const authorizationServerUrl = 'https://api.stellary.co/.well-known/oauth-authorization-server';
+const [protectedResourceResponse, authorizationServerResponse] = await Promise.all([
+  fetch(protectedResourceUrl),
+  fetch(authorizationServerUrl),
+]);
+
+if (!protectedResourceResponse.ok || !authorizationServerResponse.ok) {
+  throw new Error('Stellary OAuth discovery metadata is not reachable.');
+}
+
+const protectedResource = await protectedResourceResponse.json();
+const authorizationServer = await authorizationServerResponse.json();
+
+if (
+  protectedResource.resource !== remote.url ||
+  !protectedResource.authorization_servers?.some(
+    (issuer) => issuer === 'https://api.stellary.co' || issuer === 'https://api.stellary.co/',
+  )
+) {
+  throw new Error('Protected resource metadata does not bind the canonical Stellary MCP resource and issuer.');
+}
+
+if (
+  authorizationServer.authorization_endpoint !== 'https://api.stellary.co/authorize' ||
+  authorizationServer.token_endpoint !== 'https://api.stellary.co/token' ||
+  authorizationServer.registration_endpoint !== 'https://api.stellary.co/register' ||
+  authorizationServer.revocation_endpoint !== 'https://api.stellary.co/revoke' ||
+  !authorizationServer.code_challenge_methods_supported?.includes('S256') ||
+  !authorizationServer.grant_types_supported?.includes('authorization_code') ||
+  !authorizationServer.grant_types_supported?.includes('refresh_token')
+) {
+  throw new Error('Authorization server metadata is missing a required OAuth capability.');
+}
+
+console.log(`${remote.url} exposes the expected OAuth challenge and discovery metadata.`);

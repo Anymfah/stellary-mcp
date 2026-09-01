@@ -13,7 +13,7 @@ existing permissions.
 
 - **Endpoint:** `https://api.stellary.co/mcp`
 - **Transport:** Streamable HTTP
-- **Authentication:** Bearer personal access token (PAT)
+- **Authentication:** OAuth 2.1 with PKCE and refresh-token rotation; bearer PATs remain supported for compatibility
 
 [Official MCP Registry listing](https://registry.modelcontextprotocol.io/v0.1/servers/io.github.Anymfah%2Fstellary-project-management/versions/latest) ·
 [Documentation](https://stellary.co/docs/mcp/) ·
@@ -27,25 +27,23 @@ existing permissions.
 - Run governed agent missions with workspace rules and approval policies.
 - Use installed workspace integrations from eligible agent sessions.
 
-The exact tool list is resolved at connection time. It depends on the token's
-scopes, the user's project access, the workspace configuration, and—when using
-an agent identity—the agent's tool policy.
+An OAuth connection can authorize **Me**, one or more active workspace agents,
+or both. The exact tool list is resolved at connection time and checked again
+for the identity selected on every call. It depends on OAuth scopes, project
+access, workspace configuration, and each agent's tool and autonomy policies.
 
 ## Connect in three steps
 
-1. Sign in to [Stellary](https://app.stellary.co), then open
-   **Account settings → API tokens**.
-2. Create a token. Read access starts with `projects:read` and
-   `pilotage:read`; select write scopes only when the client needs them.
-3. Add the hosted endpoint and the token to your MCP client.
+1. Add the hosted endpoint to an OAuth-capable MCP client.
+2. Sign in to Stellary in the browser window opened by the client.
+3. Choose a workspace and authorize **Me**, one or more active agents, or both.
 
 ### Claude Code
 
 ```bash
 claude mcp add stellary \
   --transport streamable-http \
-  https://api.stellary.co/mcp \
-  --header "Authorization: Bearer YOUR_STELLARY_TOKEN"
+  https://api.stellary.co/mcp
 ```
 
 ### Cursor and JSON-based clients
@@ -54,10 +52,7 @@ claude mcp add stellary \
 {
   "mcpServers": {
     "stellary": {
-      "url": "https://api.stellary.co/mcp",
-      "headers": {
-        "Authorization": "Bearer YOUR_STELLARY_TOKEN"
-      }
+      "url": "https://api.stellary.co/mcp"
     }
   }
 }
@@ -65,6 +60,10 @@ claude mcp add stellary \
 
 A reusable example is available in
 [`examples/mcp-client.json`](examples/mcp-client.json).
+
+Clients without remote OAuth support can still use a dedicated personal access
+token from **Account settings → API tokens** as an `Authorization: Bearer`
+header. Start with read-only scopes and add write scopes only when required.
 
 ## Recommended first request
 
@@ -74,10 +73,12 @@ columns and cards before enabling write scopes.
 
 ## Security
 
-- Treat Stellary tokens like passwords. Never commit a real token to a repository.
-- Start with read-only scopes and use an expiry date.
-- Use a dedicated token per MCP client so it can be revoked independently.
+- Revoke an OAuth connection from **Workspace settings → MCP connections** when
+  a client should no longer have access.
+- Treat compatibility PATs like passwords and never commit one to a repository.
+- Start with read-only scopes and use an expiry date when a PAT is required.
 - All requests are still subject to Stellary permissions and rate limits.
+- Stellary never sends the client the private tokens attached to your agents.
 
 For a vulnerability, follow [SECURITY.md](SECURITY.md). For setup questions,
 email [support@stellary.co](mailto:support@stellary.co).
@@ -85,8 +86,10 @@ email [support@stellary.co](mailto:support@stellary.co).
 ## Agent directory manifests
 
 This repository is also the public discovery source for agent plugin
-directories. Each file points at the same hosted Streamable HTTP endpoint and
-Bearer PAT. None of them start a local stdio/`npx` server or use OAuth.
+directories. OAuth-capable surfaces point at the hosted Streamable HTTP endpoint
+without embedding a secret. Legacy PAT configuration remains documented for
+clients that cannot complete remote OAuth. None starts a local stdio/`npx`
+server.
 
 | Surface | Files |
 | --- | --- |
@@ -97,9 +100,10 @@ Bearer PAT. None of them start a local stdio/`npx` server or use OAuth.
 | skills.sh / ClawHub | [`SKILL.md`](SKILL.md) (`npx skills add Anymfah/stellary-mcp`) |
 | Grok Build | [`.grok-plugin/plugin.json`](.grok-plugin/plugin.json) |
 | GitHub Copilot / Agent Plugins | [`plugin.json`](plugin.json) |
+| OpenAI Plugins / Codex | [`plugins/stellary/.codex-plugin/plugin.json`](plugins/stellary/.codex-plugin/plugin.json), [`plugins/stellary/.mcp.json`](plugins/stellary/.mcp.json) |
 
-Set `STELLARY_TOKEN` in the client environment or plugin settings. Never commit
-a real token. A 400×400 listing icon is in
+Only set `STELLARY_TOKEN` when a client cannot use OAuth. Never commit a real
+token. A 400×400 listing icon is in
 [`assets/logo-400.png`](assets/logo-400.png).
 
 ## About this repository
@@ -113,8 +117,9 @@ repository.
 Thin plugin manifests for Grok Build and GitHub Copilot live in
 [`.mcp.json`](.mcp.json), [`.grok-plugin/plugin.json`](.grok-plugin/plugin.json),
 and [`plugin.json`](plugin.json). They point at the hosted endpoint
-`https://api.stellary.co/mcp` (Streamable HTTP + Bearer PAT). A 400×400 listing
-icon is in [`assets/logo-400.png`](assets/logo-400.png).
+`https://api.stellary.co/mcp` (Streamable HTTP with OAuth, plus PAT
+compatibility). A 400×400 listing icon is in
+[`assets/logo-400.png`](assets/logo-400.png).
 
 The metadata and documentation in this repository are licensed under the MIT
 License. Use of the hosted service is governed by the

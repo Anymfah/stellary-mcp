@@ -1,6 +1,7 @@
 {
   "mcpServers": {
     "stellary": {
+      "type": "http",
       "url": "https://api.stellary.co/mcp"
     }
   }

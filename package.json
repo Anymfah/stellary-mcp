@@ -5,7 +5,7 @@
   "description": "Official registry metadata and connection guides for the hosted Stellary MCP server.",
   "scripts": {
     "test": "npm run validate && npm run check:endpoint",
-    "validate": "node scripts/validate-server-json.mjs && node scripts/validate-openai-plugin.mjs",
+    "validate": "node scripts/validate-server-json.mjs && node scripts/validate-openai-plugin.mjs && node scripts/validate-cursor-plugin.mjs",
     "check:endpoint": "node scripts/check-endpoint.mjs"
   },
   "license": "MIT"

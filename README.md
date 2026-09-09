@@ -59,11 +59,59 @@ claude mcp add stellary \
 ```
 
 A reusable example is available in
-[`examples/mcp-client.json`](examples/mcp-client.json).
+[`examples/mcp-client.json`](examples/mcp-client.json). Marketplace install
+and PAT fallback scopes are documented below.
 
-Clients without remote OAuth support can still use a dedicated personal access
-token from **Account settings → API tokens** as an `Authorization: Bearer`
-header. Start with read-only scopes and add write scopes only when required.
+## Install from the Cursor Marketplace
+
+This repository is the Cursor Plugin wrapper for the hosted Streamable HTTP
+endpoint. It does **not** start a local `stdio` or `npx` server.
+
+1. Open **Customize** in Cursor and install **Stellary** from the
+   [Cursor Marketplace](https://cursor.com/marketplace) once the listing is
+   live (submission: [publish form](https://cursor.com/marketplace/publish)).
+2. Complete the Stellary OAuth window. Choose a workspace and authorize
+   **Me**, one or more active agents, or both.
+3. Ask Cursor to list your Stellary projects.
+
+Until the listing is public, symlink this repo into
+`~/.cursor/plugins/local/stellary` or add the same hosted URL to Cursor MCP
+settings / `~/.cursor/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "stellary": {
+      "url": "https://api.stellary.co/mcp"
+    }
+  }
+}
+```
+
+Cursor discovers OAuth from Stellary metadata. The Marketplace package therefore
+ships **no** Bearer header and **no** `${STELLARY_TOKEN}` placeholder.
+
+### Compatibility PAT (only if OAuth cannot complete)
+
+Create a dedicated token from **Account settings → API tokens**. Start with
+`projects:read` and `pilotage:read`. Add write scopes only when the client
+needs them. Keep the secret in user MCP settings — never in this repository:
+
+```json
+{
+  "mcpServers": {
+    "stellary": {
+      "url": "https://api.stellary.co/mcp",
+      "headers": {
+        "Authorization": "Bearer ${env:STELLARY_TOKEN}"
+      }
+    }
+  }
+}
+```
+
+The publish checklist for `marketplace-publishing@cursor.com` / the publish
+form is in [`CURSOR_SUBMISSION.md`](CURSOR_SUBMISSION.md).
 
 ## Recommended first request
 
@@ -94,7 +142,7 @@ server.
 | Surface | Files |
 | --- | --- |
 | cursor.directory / Open Plugins | [`.mcp.json`](.mcp.json) |
-| Cursor Marketplace | [`.cursor-plugin/plugin.json`](.cursor-plugin/plugin.json), [`mcp.json`](mcp.json) |
+| Cursor Marketplace | [`.cursor-plugin/plugin.json`](.cursor-plugin/plugin.json), [`mcp.json`](mcp.json), [`skills/stellary/SKILL.md`](skills/stellary/SKILL.md), [`CURSOR_SUBMISSION.md`](CURSOR_SUBMISSION.md) |
 | Claude Code Plugin Directory | [`.claude-plugin/plugin.json`](.claude-plugin/plugin.json), [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json), [`.mcp.json`](.mcp.json) |
 | Gemini CLI Extensions | [`gemini-extension.json`](gemini-extension.json) |
 | skills.sh / ClawHub | [`SKILL.md`](SKILL.md) (`npx skills add Anymfah/stellary-mcp`) |

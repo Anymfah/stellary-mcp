@@ -1,12 +1,13 @@
 {
   "name": "stellary",
+  "displayName": "Stellary",
   "version": "0.13.0",
-  "description": "Connect Cursor to Stellary through the hosted Streamable HTTP MCP server. OAuth is recommended when supported; personal access tokens remain available as a compatibility option.",
+  "description": "Connect Cursor to Stellary project management through the hosted Streamable HTTP MCP at https://api.stellary.co/mcp. Cursor completes OAuth 2.1 (PKCE, dynamic client registration); no local stdio or npx server is started.",
   "author": {
     "name": "Stellary",
     "email": "support@stellary.co"
   },
-  "homepage": "https://stellary.co",
+  "homepage": "https://stellary.co/docs/mcp/",
   "repository": "https://github.com/Anymfah/stellary-mcp",
   "license": "MIT",
   "keywords": [
@@ -14,7 +15,16 @@
     "mcp",
     "project-management",
     "remote-mcp",
-    "streamable-http"
+    "streamable-http",
+    "oauth"
   ],
-  "logo": "https://stellary.co/logo.svg"
+  "category": "productivity",
+  "tags": [
+    "stellary",
+    "mcp",
+    "project-management",
+    "oauth"
+  ],
+  "logo": "assets/logo-stellary.svg",
+  "mcpServers": "./mcp.json"
 }

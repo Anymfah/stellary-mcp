@@ -40,9 +40,61 @@ claude mcp add stellary \
 }
 ```
 
-Les clients qui ne prennent pas en charge OAuth distant peuvent encore utiliser
-un PAT dédié depuis **Paramètres du compte → Tokens API** dans un header
-`Authorization: Bearer`. Commencez avec des droits de lecture uniquement.
+L’installation Marketplace et les scopes PAT de repli sont documentés plus bas.
+
+## Installer depuis le Cursor Marketplace
+
+Ce dépôt est le plugin Cursor qui enveloppe l’endpoint Streamable HTTP hébergé.
+Il ne démarre **pas** de serveur local `stdio` ou `npx`.
+
+1. Ouvrez **Customize** dans Cursor et installez **Stellary** depuis le
+   [Cursor Marketplace](https://cursor.com/marketplace) une fois la fiche
+   publiée (soumission :
+   [formulaire](https://cursor.com/marketplace/publish)).
+2. Terminez la fenêtre OAuth Stellary. Choisissez un workspace et autorisez
+   **Moi**, un ou plusieurs agents actifs, ou les deux.
+3. Demandez à Cursor de lister vos projets Stellary.
+
+Tant que la fiche n’est pas publique, liez ce dépôt vers
+`~/.cursor/plugins/local/stellary` ou ajoutez la même URL hébergée dans les
+réglages MCP de Cursor / `~/.cursor/mcp.json` :
+
+```json
+{
+  "mcpServers": {
+    "stellary": {
+      "url": "https://api.stellary.co/mcp"
+    }
+  }
+}
+```
+
+Cursor découvre OAuth via les métadonnées Stellary. Le paquet Marketplace
+n’embarque donc **aucun** header Bearer et **aucun** placeholder
+`${STELLARY_TOKEN}`.
+
+### PAT de compatibilité (seulement si OAuth ne peut pas aboutir)
+
+Créez un token dédié depuis **Paramètres du compte → Tokens API**. Commencez
+avec `projects:read` et `pilotage:read`. Ajoutez des droits d’écriture
+seulement si le client en a besoin. Gardez le secret dans les réglages MCP
+utilisateur — jamais dans ce dépôt :
+
+```json
+{
+  "mcpServers": {
+    "stellary": {
+      "url": "https://api.stellary.co/mcp",
+      "headers": {
+        "Authorization": "Bearer ${env:STELLARY_TOKEN}"
+      }
+    }
+  }
+}
+```
+
+La checklist de publication pour `marketplace-publishing@cursor.com` / le
+formulaire est dans [`CURSOR_SUBMISSION.md`](CURSOR_SUBMISSION.md).
 
 ## Premier test conseillé
 
@@ -75,7 +127,7 @@ local.
 | Surface | Fichiers |
 | --- | --- |
 | cursor.directory / Open Plugins | [`.mcp.json`](.mcp.json) |
-| Cursor Marketplace | [`.cursor-plugin/plugin.json`](.cursor-plugin/plugin.json), [`mcp.json`](mcp.json) |
+| Cursor Marketplace | [`.cursor-plugin/plugin.json`](.cursor-plugin/plugin.json), [`mcp.json`](mcp.json), [`skills/stellary/SKILL.md`](skills/stellary/SKILL.md), [`CURSOR_SUBMISSION.md`](CURSOR_SUBMISSION.md) |
 | Claude Code Plugin Directory | [`.claude-plugin/plugin.json`](.claude-plugin/plugin.json), [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json), [`.mcp.json`](.mcp.json) |
 | Gemini CLI Extensions | [`gemini-extension.json`](gemini-extension.json) |
 | skills.sh / ClawHub | [`SKILL.md`](SKILL.md) (`npx skills add Anymfah/stellary-mcp`) |
